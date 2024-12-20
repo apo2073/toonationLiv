@@ -1,7 +1,7 @@
 ![jitpack]()
 # 💸ToonationLiv
 
-__[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert API](https://github.com/outstanding1301/donation-alert-api)를 더 쉽게 만든 API입니다__
+__[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert API](https://github.com/outstanding1301/donation-alert-api)를 개선한 API입니다__
 
 ---
 

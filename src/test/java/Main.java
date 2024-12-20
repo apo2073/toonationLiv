@@ -3,8 +3,6 @@ import kr.apo2073.ToonationBuilder;
 import kr.apo2073.data.Chatting;
 import kr.apo2073.listener.ToonationEventListener;
 
-import java.util.Scanner;
-
 public class Main {
     static {
         Toonation toonation=new ToonationBuilder()

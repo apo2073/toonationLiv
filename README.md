@@ -1,4 +1,6 @@
-![jitpack]()
+[![](https://jitpack.io/v/apo2073/toonationLiv.svg)](https://jitpack.io/#apo2073/toonationLiv)
+
+
 # 💸ToonationLiv
 
 __[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert API](https://github.com/outstanding1301/donation-alert-api)를 업데이트한 API입니다__
@@ -7,7 +9,15 @@ __[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert A
 
 # Gradle
 ```gradle
-...
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
+
+dependencies {
+    implementation("com.github.apo2073:toonationLiv:(VERSION )")
+}
 ```
 
 # Example

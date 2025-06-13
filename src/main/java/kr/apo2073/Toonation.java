@@ -9,12 +9,14 @@ import kr.apo2073.data.Donation;
 import kr.apo2073.exception.TokenNotFound;
 import kr.apo2073.listener.ToonationEventListener;
 import kr.apo2073.utilities.Debugger;
+import kr.apo2073.utilities.Streamer;
 import okhttp3.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -30,6 +32,23 @@ public class Toonation extends WebSocketListener {
     private final List<ToonationEventListener> listeners;
     private final Subject<Donation> donationSubject;
     private final Subject<Chatting> chattingSubject;
+
+    public static Streamer getStreamer(String id) {
+        //_DisplayCreatorName_1ku87_235
+        try {
+            Document doc = Jsoup.connect("https://toon.at/donate/"+id)
+                    .get();
+            doc.getElementsByClass("_DisplayCreatorName_1ku87_235").forEach(i-> System.out.println(i.text()));
+            Element element=doc.getElementsByClass("_DisplayCreatorName_1ku87_235").first();
+            if (element!=null) {
+                String nickname= element.text();
+                return new Streamer(id, nickname);
+            } else return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public Toonation(ToonationBuilder builder) {
         this.key=builder.key;
@@ -76,11 +95,7 @@ public class Toonation extends WebSocketListener {
             JsonObject json= new Gson().fromJson(text, JsonObject.class);
             System.out.println(text);
             Donation donation=getDonation(json);
-            if (donation==null) {
-//                Chatting chatting=getChatting(json);
-//                for (ToonationEventListener listener : listeners)
-//                    listener.onChat(chatting);
-            } else {
+            if (donation!=null) {
                 for (ToonationEventListener listener: listeners)
                     listener.onDonation(donation);
             }
@@ -139,7 +154,7 @@ public class Toonation extends WebSocketListener {
                     .readTimeout(0, TimeUnit.MILLISECONDS)
                     .build();
             Request request = new Request.Builder()
-                    .url("wss://toon.at:8071/" + payload)
+                    .url("wss://ws.toon.at/" + payload)
                     .build();
             socket = client.newWebSocket(request, this);
 

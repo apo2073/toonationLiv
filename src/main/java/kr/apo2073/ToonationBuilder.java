@@ -2,12 +2,13 @@ package kr.apo2073;
 
 import kr.apo2073.listener.ToonationEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToonationBuilder {
     public String key;
     public boolean timeout=true;
-    public List<ToonationEventListener> listeners;
+    public List<ToonationEventListener> listeners=new ArrayList<>();
     public boolean debug=false;
 
     public ToonationBuilder setKey(String key) {

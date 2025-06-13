@@ -1,7 +1,7 @@
 ![jitpack]()
 # 💸ToonationLiv
 
-__[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert API](https://github.com/outstanding1301/donation-alert-api)를 개선한 API입니다__
+__[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert API](https://github.com/outstanding1301/donation-alert-api)를 업데이트한 API입니다__
 
 ---
 
@@ -12,21 +12,19 @@ __[@outstanding1301](https://github.com/outstanding1301)님의 [Donation Alert A
 
 # Example
 ```java
-public class Main {
-    static {
-        Toonation toonation=new ToonationBuilder()
-                .setKey("") // https://toon.at/widget/alertbox/(here)
-                .addListener(new ToonationEventListener() {
-                    @Override
-                    public void onChat(Chatting chatting) {
-                        System.out.println(chatting.getNickName()
-                                +" :: " + chatting.getComment());
-                    }
-                })
-                .build();
-
-    }
-}
+new ToonationBuilder()
+    .setKey("") // https://toon.at/widget/alertbox/(here)
+    .addListener(new ToonationEventListener() {
+        @Override
+        public void onDonation(Donation donation) {
+            System.out.println(donation.getNickName()+":"+donation.getAmount());
+        }
+        
+        @Override
+        public void onFail() {
+            System.out.println("error");
+        }
+    }).build();
 ```
 
 ---
@@ -34,4 +32,4 @@ public class Main {
 ## 🗃️TODO
  - [ ] Toonation Channel Info getter
  - [ ] Toonation Video Info
- - [ ] Test
+ - [x] Test

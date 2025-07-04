@@ -11,7 +11,6 @@ public class Streamer {
     public String getNickname() {
         return nickname;
     }
-
     public String getId() {
         return id;
     }

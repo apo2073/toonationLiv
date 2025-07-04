@@ -27,7 +27,7 @@ dependencies {
 }
 
 tasks.jar {
-    archiveFileName.set("ToontaionLib-$version.jar")
+    archiveFileName.set("ToontaionLiv-$version.jar")
 }
 
 publishing {

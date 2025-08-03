@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.apo2073"
-version = "1.1"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     implementation("org.jsoup:jsoup:1.15.3")
+    implementation("org.seleniumhq.selenium:selenium-java:4.34.0")
+    implementation("io.github.bonigarcia:webdrivermanager:6.2.0")
     implementation("io.socket:socket.io-client:2.1.1")
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("io.reactivex.rxjava3:rxjava:3.1.10")
@@ -30,29 +32,32 @@ tasks.jar {
     archiveFileName.set("ToontaionLiv-$version.jar")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "com.github.apo2073"
-            artifactId = "ToonationLiv"
-            version = version
-
-            from(components["java"])
-
-            pom {
-                name.set("ToontaionLiv")
-                developers {
-                    developer {
-                        id="apo2073"
-                        url="https://github.com/apo2073"
-                    }
-                }
-            }
-        }
-    }
-}
+//publishing {
+//    publications {
+//        create<MavenPublication>("maven") {
+//            groupId = "com.github.apo2073"
+//            artifactId = "ToonationLiv"
+//            version = version
+//
+//            from(components["java"])
+//
+//            pom {
+//                name.set("ToontaionLiv")
+//                developers {
+//                    developer {
+//                        id="apo2073"
+//                        url="https://github.com/apo2073"
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 tasks.test {
     useJUnitPlatform()
+}
+tasks.withType<JavaExec> {
+    jvmArgs = listOf("-Dfile.encoding=UTF-8")
 }

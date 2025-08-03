@@ -2,7 +2,6 @@ import kr.apo2073.Toonation;
 import kr.apo2073.ToonationBuilder;
 import kr.apo2073.data.Donation;
 import kr.apo2073.listener.ToonationEventListener;
-import okhttp3.Request;
 
 public class Main {
     public static void main(String[] args) {

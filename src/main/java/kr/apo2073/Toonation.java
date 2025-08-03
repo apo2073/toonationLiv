@@ -2,6 +2,7 @@ package kr.apo2073;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
 import kr.apo2073.data.Chatting;
@@ -15,6 +16,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static io.github.bonigarcia.wdm.WebDriverManager.*;
 
 public class Toonation extends WebSocketListener {
     private final String key;
@@ -35,24 +43,25 @@ public class Toonation extends WebSocketListener {
     private final Subject<Chatting> chattingSubject;
 
     public static Streamer getStreamer(String id) {
-        //_DisplayCreatorName_1ku87_235
-        try {
-            Document doc = Jsoup.connect("https://toon.at/donate/"+id)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Gecko/20100101 Firefox/139.0")
-                    .cookie("language_code", "en")
-                    .ignoreHttpErrors(true)
-                    .ignoreContentType(true)
-                    .get();
-            //._DisplayCreatorName_1ku87_235
+        chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        WebDriver driver = new ChromeDriver(options);
 
-            System.out.println(doc);
-            Elements element = doc.select("*[class*=DisplayCreatorName]");
-            System.out.println(Objects.requireNonNull(element).text());
-            String nickname = element.text();
+        try {
+            driver.get("https://toon.at/donate/" + id);
+            Thread.sleep(2000);
+
+            WebElement el = driver.findElement(By.cssSelector("[class*='DisplayCreatorName']"));
+            String nickname = el.getText();
+
             return new Streamer(id, nickname);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            driver.quit();
         }
     }
 
@@ -203,20 +212,6 @@ public class Toonation extends WebSocketListener {
             return null;
         }
     }
-//    private Chatting getChatting(JsonObject json) {
-//        try {
-//            if (!json.has("content")) return null;
-//            json= json.get("content").getAsJsonObject();
-//            return new Chatting(
-//                    json.get("account").toString(),
-//                    json.get("name").toString(),
-//                    json.get("message").toString()
-//            );
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 
     public String getKey() {
         return key;

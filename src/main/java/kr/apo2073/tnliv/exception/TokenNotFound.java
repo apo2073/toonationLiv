@@ -1,4 +1,4 @@
-package kr.apo2073.exception;
+package kr.apo2073.tnliv.exception;
 
 public class TokenNotFound extends RuntimeException {
     public TokenNotFound() {

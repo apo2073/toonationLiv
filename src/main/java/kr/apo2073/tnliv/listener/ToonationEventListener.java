@@ -1,6 +1,6 @@
-package kr.apo2073.listener;
+package kr.apo2073.tnliv.listener;
 
-import kr.apo2073.data.Donation;
+import kr.apo2073.tnliv.data.Donation;
 
 public interface ToonationEventListener {
 //    default void onChat(Chatting chatting) {}

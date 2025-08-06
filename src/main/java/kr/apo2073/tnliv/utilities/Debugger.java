@@ -1,4 +1,4 @@
-package kr.apo2073.utilities;
+package kr.apo2073.tnliv.utilities;
 
 public class Debugger {
     private boolean isDebug=false;

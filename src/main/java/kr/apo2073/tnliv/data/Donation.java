@@ -1,4 +1,4 @@
-package kr.apo2073.data;
+package kr.apo2073.tnliv.data;
 
 import java.util.Objects;
 

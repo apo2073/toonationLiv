@@ -1,16 +1,15 @@
-package kr.apo2073;
+package kr.apo2073.tnliv;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
-import kr.apo2073.data.Chatting;
-import kr.apo2073.data.Donation;
-import kr.apo2073.exception.TokenNotFound;
-import kr.apo2073.listener.ToonationEventListener;
-import kr.apo2073.utilities.Debugger;
-import kr.apo2073.utilities.Streamer;
+import kr.apo2073.tnliv.data.Chatting;
+import kr.apo2073.tnliv.data.Donation;
+import kr.apo2073.tnliv.exception.TokenNotFound;
+import kr.apo2073.tnliv.listener.ToonationEventListener;
+import kr.apo2073.tnliv.utilities.Debugger;
+import kr.apo2073.tnliv.utilities.Streamer;
 import okhttp3.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,9 +21,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

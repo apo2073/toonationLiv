@@ -1,7 +1,4 @@
-import kr.apo2073.Toonation;
-import kr.apo2073.ToonationBuilder;
-import kr.apo2073.data.Donation;
-import kr.apo2073.listener.ToonationEventListener;
+import kr.apo2073.tnliv.Toonation;
 
 public class Main {
     public static void main(String[] args) {

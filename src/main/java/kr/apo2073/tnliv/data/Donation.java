@@ -3,16 +3,18 @@ package kr.apo2073.tnliv.data;
 import java.util.Objects;
 
 public class Donation {
+    private final String alertBox;
     private final String id;
     private final String nickName;
     private final String comment;
     private final long amount;
 
-    public Donation(String id, String nickName, String comment, long amount) {
+    public Donation(String id, String nickName, String comment, long amount, String alertBox) {
         this.id = id;
         this.nickName = nickName;
         this.comment = comment;
         this.amount = amount;
+        this.alertBox=alertBox;
     }
 
     public String getId() {
@@ -33,6 +35,8 @@ public class Donation {
         return amount;
     }
 
+    public String getAlertBox() {return alertBox;}
+
     @Override
     public String toString() {
         return "Donation{" +
@@ -40,6 +44,7 @@ public class Donation {
                 ", nickName='" + nickName + '\'' +
                 ", comment='" + comment + '\'' +
                 ", amount=" + amount +
+                ", key=" + alertBox +
                 '}';
     }
 

@@ -202,7 +202,8 @@ public class Toonation extends WebSocketListener {
                     json.get("account").toString(),
                     json.get("name").toString(),
                     json.get("message").toString(),
-                    json.get("amount").getAsLong()
+                    json.get("amount").getAsLong(),
+                    this.key
             );
         } catch (Exception e) {
             e.printStackTrace();

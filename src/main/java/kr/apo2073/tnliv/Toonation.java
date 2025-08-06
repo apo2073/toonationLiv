@@ -22,6 +22,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,7 +93,6 @@ public class Toonation extends WebSocketListener {
                     .url("wss://ws.toon.at/"+payload)
                     .build();
             socket =client.newWebSocket(request, this);
-            client.dispatcher().executorService().close();
 
             donationSubject= PublishSubject.create();
             chattingSubject= PublishSubject.create();

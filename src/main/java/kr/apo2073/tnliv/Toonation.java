@@ -20,10 +20,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -39,6 +41,13 @@ public class Toonation extends WebSocketListener {
     private final List<ToonationEventListener> listeners;
     private final Subject<Donation> donationSubject;
     private final Subject<Chatting> chattingSubject;
+    private volatile boolean closed=false;
+
+    private static final ExecutorService seleniumExecutor = Executors.newSingleThreadExecutor();
+
+    public static Future<Streamer> getStreamerAsync(String id) {
+        return seleniumExecutor.submit(() -> getStreamer(id));
+    }
 
     public static Streamer getStreamer(String id) {
         chromedriver().setup();
@@ -49,11 +58,13 @@ public class Toonation extends WebSocketListener {
 
         try {
             driver.get("https://toon.at/donate/" + id);
-            Thread.sleep(2000);
 
-            WebElement el = driver.findElement(By.cssSelector("[class*='DisplayCreatorName']"));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement el = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class*='DisplayCreatorName']"))
+            );
+
             String nickname = el.getText();
-
             return new Streamer(id, nickname);
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,6 +151,7 @@ public class Toonation extends WebSocketListener {
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        if (closed) return;
         try {
             timeout = true;
 
@@ -189,9 +201,22 @@ public class Toonation extends WebSocketListener {
 
 
     public void close() {
-        donationSubject.onComplete();
-        chattingSubject.onComplete();
-        socket.close(1000, null);
+        try {
+            if (donationSubject != null && !donationSubject.hasComplete()) {
+                donationSubject.onComplete();
+            }
+            if (chattingSubject != null && !chattingSubject.hasComplete()) {
+                chattingSubject.onComplete();
+            }
+            if (socket != null) {
+                socket.close(1000, "Client closing");
+                socket = null;
+            }
+            closed=true;
+            debugger.debug("모든 연결이 정상적으로 종료되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Donation getDonation(JsonObject json) {
